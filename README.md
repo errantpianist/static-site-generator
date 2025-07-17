@@ -7,7 +7,7 @@
 ---
 
 <div align="center">
-   <img src="docs/images/screenshot.png" alt="Site Screenshot" width="600"/>
+   <img src="assets/screenshot.png" alt="Site Screenshot" width="600"/>
 </div>
 
 ---
