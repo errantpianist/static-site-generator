@@ -1,26 +1,35 @@
+
+import os
+import shutil
 from textnode import TextNode, TextType
-from leafnode import LeafNode
+
+
+def copy_static(src, dst):
+    """Recursively copy all files and directories from src to dst, logging each file copied."""
+    if not os.path.exists(src):
+        print(f"Source directory {src} does not exist.")
+        return
+    if os.path.exists(dst):
+        shutil.rmtree(dst)
+    os.makedirs(dst)
+    for item in os.listdir(src):
+        s = os.path.join(src, item)
+        d = os.path.join(dst, item)
+        if os.path.isdir(s):
+            copy_static(s, d)
+        else:
+            shutil.copy(s, d)
+            print(f"Copied: {d}")
 
 def main():
-    test_node = TextNode("Test Node", TextType.BOLD)
-    print(test_node)
+    # Determine project root (one level up from this file)
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    static_dir = os.path.join(project_root, 'static')
+    public_dir = os.path.join(project_root, 'public')
+    # Copy static files to public directory
+    copy_static(static_dir, public_dir)
 
-def text_node_to_html_node(text_node):
-    match text_node.text_type:
-        case TextType.NORMAL:
-            return LeafNode(None, text_node.text)
-        case TextType.BOLD:
-            return LeafNode("b", text_node.text)
-        case TextType.ITALIC:
-            return LeafNode("i", text_node.text)
-        case TextType.CODE:
-            return LeafNode("code", text_node.text)
-        case TextType.LINK:
-            return LeafNode("a", text_node.text, {"href": None})
-        case TextType.IMAGE:
-            return LeafNode("img", "", {"src": None, "alt": None})
 
-    raise Exception("Unsupported text node type")
 
 
 if __name__ == "__main__":
