@@ -4,6 +4,13 @@
    <p>A simple Python static site generator for Markdown content, with GitHub Pages support and configurable base paths.</p>
 </div>
 
+---
+
+<div align="center">
+   <img src="docs/images/screenshot.png" alt="Site Screenshot" width="600"/>
+</div>
+
+---
 
 ## ✨ Features
 - Converts Markdown files to HTML using a template
