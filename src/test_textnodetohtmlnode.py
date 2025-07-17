@@ -32,13 +32,13 @@ class TestTextNodeToHtmlNode(unittest.TestCase):
         converted_node = text_node_to_html_node(node)
         self.assertEqual(converted_node.value, node.text)
         self.assertEqual(converted_node.tag, "a")
-        self.assertEqual(converted_node.props["href"], None)
-        
+        self.assertEqual(converted_node.props["href"], "")
+
     def test_image(self):
         node = TextNode("Test", TextType.IMAGE)
         converted_node = text_node_to_html_node(node)
-        self.assertEqual(converted_node.value, "")
+        self.assertIsNone(converted_node.value)
         self.assertEqual(converted_node.tag, "img")
-        self.assertEqual(converted_node.props["src"], None)
-        self.assertEqual(converted_node.props["alt"], None)
+        self.assertEqual(converted_node.props["src"], "")
+        self.assertEqual(converted_node.props["alt"], "Test")
         

@@ -1,5 +1,5 @@
 import unittest
-from extractor import extract_markdown_images, extract_markdown_links
+from src.extractor import extract_markdown_images, extract_markdown_links, extract_title
 
 class TestExtractor(unittest.TestCase):
     def test_extract_markdown_images_single(self):
@@ -49,3 +49,25 @@ class TestExtractor(unittest.TestCase):
         text = "![alt](imgurl) and [text](url)"
         expected = [("alt", "imgurl")]
         self.assertListEqual(extract_markdown_images(text), expected)
+
+    # Tests for extract_title
+    def test_extract_title_simple(self):
+        md = "# Hello"
+        self.assertEqual(extract_title(md), "Hello")
+
+    def test_extract_title_leading_trailing_whitespace(self):
+        md = "   #   Hello World   "
+        self.assertEqual(extract_title(md), "Hello World")
+
+    def test_extract_title_multiline(self):
+        md = "Some intro\n# My Title\nMore text"
+        self.assertEqual(extract_title(md), "My Title")
+
+    def test_extract_title_no_h1(self):
+        md = "## Subtitle\nNo h1 here"
+        with self.assertRaises(Exception):
+            extract_title(md)
+
+    def test_extract_title_first_h1(self):
+        md = "# First\n# Second"
+        self.assertEqual(extract_title(md), "First")
